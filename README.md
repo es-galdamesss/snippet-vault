@@ -1,233 +1,201 @@
-# Snippet Vault 🔐
+# Snippet Vault
 
-Un sistema de gestión de snippets de código personal construido con el stack PERN (PostgreSQL, Express, React, Node.js).
+Sistema de gestión de fragmentos de código construido con PostgreSQL, Express, React y Node.js.
 
-## 📖 Descripción
+## Descripción
 
-Snippet Vault es tu StackOverflow privado. Centraliza todo tu conocimiento técnico disperso (comandos de Git, configuraciones de Webpack, helpers de JavaScript, etc.) en una sola aplicación con búsqueda instantánea.
+Snippet Vault es una aplicación web diseñada para almacenar, organizar y recuperar fragmentos de código de forma eficiente. Proporciona una interfaz para gestionar conocimiento técnico mediante un sistema de búsqueda instantánea, etiquetado y categorización por lenguaje de programación.
 
-**Filosofía:** "Guardar en menos de 10 segundos, recuperar en menos de 5 segundos."
+La aplicación implementa optimistic UI para garantizar una experiencia de usuario fluida, con actualizaciones instantáneas que se reflejan en la interfaz antes de la confirmación del servidor.
 
-## 🚀 Stack Tecnológico
+## Stack Tecnológico
 
-### Backend
-- **Node.js** con ES Modules
-- **Express.js** - Framework web minimalista
-- **PostgreSQL** - Base de datos relacional con soporte de arrays nativos
-- **express-validator** - Validación de datos robusta
-- **dotenv** - Gestión de variables de entorno
+**Backend:**
+- Node.js con ES Modules
+- Express.js para el servidor HTTP
+- PostgreSQL como sistema de base de datos
+- express-validator para validación de datos
+- Arquitectura modular por capas
 
-### Frontend
-- **React 18** - Biblioteca UI
-- **Vite** - Build tool ultrarrápido
-- **Tailwind CSS** - Estilos utility-first
-- **Lucide React** - Iconos modernos
-- **React Syntax Highlighter** - Resaltado de sintaxis de código
+**Frontend:**
+- React 18 con Hooks
+- Vite como herramienta de compilación
+- Tailwind CSS para estilos
+- React Syntax Highlighter para renderizado de código
 
-## 📦 Instalación
+## Instalación
 
-### Requisitos Previos
-- Node.js v18+ ([Descargar](https://nodejs.org/))
-- PostgreSQL 14+ ([Descargar](https://www.postgresql.org/download/))
-- npm o yarn
+### Requisitos del Sistema
 
-### 1. Clonar/Descargar el Proyecto
+- Node.js versión 18 o superior
+- PostgreSQL versión 14 o superior
+- npm o yarn como gestor de paquetes
+
+### Configuración de Base de Datos
+
+Crear la base de datos mediante el cliente psql:
 
 ```bash
-cd "snippet vault"
+psql -U postgres
+CREATE DATABASE snippet_vault_db;
+\q
 ```
 
-### 2. Configurar la Base de Datos
+Ejecutar el schema proporcionado:
 
-**Opción A: Terminal (psql)**
 ```bash
-# Conectar a PostgreSQL
-psql -U postgres
-
-# Crear base de datos
-CREATE DATABASE snippet_vault_db;
-
-# Salir
-\q
-
-# Ejecutar schema
 psql -U postgres -d snippet_vault_db -f server/schema.sql
 ```
 
-**Opción B: pgAdmin**
-1. Abrir pgAdmin
-2. Crear nueva base de datos: `snippet_vault_db`
-3. Query Tool → Copiar contenido de `server/schema.sql` → Ejecutar
+### Configuración del Backend
 
-### 3. Configurar Backend
+Instalar dependencias del servidor:
 
 ```bash
 cd server
-
-# Instalar dependencias
 npm install
-
-# Crear archivo .env
-cp .env.example .env
-
-# Editar .env con tus credenciales
-# (Usar tu editor de texto favorito)
 ```
 
-**Contenido del `.env`:**
+Crear archivo de configuración `.env` en la carpeta `server/` con los siguientes parámetros:
+
 ```ini
 PORT=3000
 DB_USER=postgres
-DB_PASSWORD=tu_password_aqui
+DB_PASSWORD=your_password
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=snippet_vault_db
 NODE_ENV=development
 ```
 
-### 4. Configurar Frontend
+El archivo `.env.example` puede utilizarse como plantilla base.
+
+### Configuración del Frontend
+
+Instalar dependencias del cliente:
 
 ```bash
-cd ../client
-
-# Instalar dependencias
+cd client
 npm install
 ```
 
-### 5. Iniciar la Aplicación
+### Ejecución del Proyecto
 
-**Terminal 1 - Backend:**
+Iniciar el servidor backend en una terminal:
+
 ```bash
 cd server
 npm run dev
 ```
-✅ Backend corriendo en: `http://localhost:3000`
 
-**Terminal 2 - Frontend:**
+El servidor estará disponible en `http://localhost:3000`
+
+Iniciar el cliente frontend en otra terminal:
+
 ```bash
 cd client
 npm run dev
 ```
-✅ Frontend corriendo en: `http://localhost:5173`
 
-## 🎯 Uso
+La aplicación estará disponible en `http://localhost:5173`
 
-1. **Crear un Snippet:**
-   - Click en "Nuevo Snippet"
-   - Llenar título, código, lenguaje y tags
-   - Guardar
+## Arquitectura
 
-2. **Buscar:**
-   - Usa la barra de búsqueda para filtrar por título, lenguaje o tags
-   - Click en un tag para filtrar instantáneamente
-
-3. **Copiar Código:**
-   - Click en el icono de copiar en la card
-   - O abre el modal y copia desde ahí
-
-4. **Ver Detalles:**
-   - Click en una card para ver el código completo con syntax highlighting
-
-## 📁 Estructura del Proyecto
+### Estructura del Backend
 
 ```
-snippet vault/
-├── server/                 # Backend API
-│   ├── config/
-│   │   └── db.js          # Configuración PostgreSQL
-│   ├── routes/
-│   │   └── snippets.js    # Endpoints REST
-│   ├── index.js           # Entry point
-│   ├── schema.sql         # Schema de base de datos
-│   ├── .env.example       # Template de variables de entorno
-│   └── package.json
-│
-├── client/                # Frontend React
-│   ├── src/
-│   │   ├── components/    # Componentes React
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── SearchBar.jsx
-│   │   │   ├── SnippetCard.jsx
-│   │   │   ├── SnippetForm.jsx
-│   │   │   └── SnippetModal.jsx
-│   │   ├── App.jsx        # Componente principal
-│   │   ├── main.jsx       # Entry point
-│   │   └── index.css      # Estilos globales
-│   ├── index.html
-│   ├── vite.config.js
-│   ├── tailwind.config.js
-│   └── package.json
-│
-├── context/               # Documentación del proyecto
-└── README.md
+server/
+├── config/
+│   └── db.js              # Pool de conexiones PostgreSQL
+├── routes/
+│   └── snippets.js        # Definición de endpoints REST
+├── index.js               # Punto de entrada del servidor
+└── schema.sql             # Schema de base de datos
 ```
 
-## 🔧 API Endpoints
+### Estructura del Frontend
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/api/snippets` | Obtener todos los snippets |
-| `GET` | `/api/snippets?search=react` | Buscar snippets |
-| `GET` | `/api/snippets/:id` | Obtener un snippet específico |
-| `POST` | `/api/snippets` | Crear nuevo snippet |
-| `PUT` | `/api/snippets/:id` | Actualizar snippet |
-| `DELETE` | `/api/snippets/:id` | Eliminar snippet |
-| `GET` | `/health` | Health check |
+```
+client/
+├── src/
+│   ├── components/        # Componentes React modulares
+│   ├── App.jsx           # Componente raíz
+│   ├── main.jsx          # Punto de entrada
+│   └── index.css         # Estilos globales
+└── vite.config.js        # Configuración de Vite
+```
 
-## 🎨 Características
+## API REST
 
-✅ **Optimistic UI** - Las acciones se reflejan instantáneamente  
-✅ **Búsqueda en tiempo real** - Filtra mientras escribes  
-✅ **Syntax Highlighting** - Código legible con colores  
-✅ **Dark Mode nativo** - Diseñado para programadores  
-✅ **Responsive** - Funciona en móvil, tablet y desktop  
-✅ **Copy to Clipboard** - Un click para copiar código  
-✅ **Validación robusta** - express-validator en backend  
-✅ **SQL Parametrizado** - Prevención de SQL injection  
+La aplicación expone los siguientes endpoints:
 
-## 📚 Aprendizajes Clave
+| Método HTTP | Endpoint | Descripción |
+|-------------|----------|-------------|
+| GET | `/api/snippets` | Obtener lista de snippets |
+| GET | `/api/snippets?search=term` | Buscar snippets por término |
+| GET | `/api/snippets/:id` | Obtener snippet por identificador |
+| POST | `/api/snippets` | Crear nuevo snippet |
+| PUT | `/api/snippets/:id` | Actualizar snippet existente |
+| DELETE | `/api/snippets/:id` | Eliminar snippet |
+| GET | `/health` | Verificación de estado del servidor |
 
-Este proyecto es perfecto para aprender:
+### Formato de Datos
 
-- **Backend:** Express, PostgreSQL raw queries, validación, arquitectura modular
-- **Frontend:** React hooks, state management, Optimistic UI, Tailwind CSS
-- **Full Stack:** Comunicación cliente-servidor, API REST, CORS
-- **Database:** Arrays de PostgreSQL, índices GIN, triggers automáticos
+Estructura de un snippet:
 
-## 🚧 Próximas Características (Scope Creep Controlado)
+```json
+{
+  "title": "string",
+  "code_content": "string",
+  "language": "string",
+  "description": "string",
+  "tags": ["string"],
+  "is_favorite": "boolean"
+}
+```
 
-Ideas para expandir el proyecto cuando domines lo básico:
+## Características Principales
 
-- [ ] Edición de snippets existentes
-- [ ] Exportar/Importar snippets (JSON)
-- [ ] Modo de vista compacta/lista
-- [ ] Temas de color personalizables
-- [ ] Búsqueda fuzzy (tolerante a errores)
-- [ ] Renderizado Markdown en descripciones
-- [ ] Extensión de VS Code
+**Gestión de Datos:**
+- Operaciones CRUD completas mediante API REST
+- Validación de entrada en el servidor
+- Queries parametrizadas para prevención de SQL injection
+- Arrays nativos de PostgreSQL para almacenamiento de etiquetas
 
-## 🐛 Troubleshooting
+**Interfaz de Usuario:**
+- Búsqueda en tiempo real por título, lenguaje o etiquetas
+- Resaltado de sintaxis para múltiples lenguajes
+- Funcionalidad de copiado al portapapeles
+- Diseño responsive adaptado a diferentes tamaños de pantalla
+- Tema oscuro optimizado para lectura de código
 
-**Error: "Cannot connect to database"**
-- Verifica que PostgreSQL esté corriendo
-- Revisa las credenciales en `.env`
-- Confirma que la base de datos existe
+**Rendimiento:**
+- Implementación de optimistic UI
+- Índices de base de datos para optimización de búsquedas
+- Hot module replacement en desarrollo
 
-**Error: "CORS Policy"**
-- Verifica que el backend esté en el puerto 3000
-- Confirma que el frontend esté en el puerto 5173
+## Base de Datos
 
-**Error: "Module not found"**
-- Ejecuta `npm install` en ambas carpetas (server y client)
+El schema incluye una tabla principal `snippets` con los siguientes campos:
 
-## 📝 Licencia
+- `id`: Identificador serial autoincremental
+- `title`: Título del snippet (VARCHAR 255)
+- `code_content`: Contenido del código (TEXT)
+- `language`: Lenguaje de programación (VARCHAR 50)
+- `description`: Descripción opcional (TEXT)
+- `tags`: Array de etiquetas (TEXT[])
+- `is_favorite`: Marcador de favorito (BOOLEAN)
+- `created_at`: Timestamp de creación
+- `updated_at`: Timestamp de última actualización
 
-MIT - Úsalo libremente para aprender y crear.
+La tabla incluye índices en los campos de búsqueda frecuente y un índice GIN para búsquedas eficientes en el array de tags. Un trigger se encarga de actualizar automáticamente el campo `updated_at` en cada modificación.
 
-## 🤝 Contribuciones
+## Desarrollo
 
-Este es un proyecto educativo personal. Siéntete libre de hacer fork y experimentar.
+El proyecto utiliza nodemon para recarga automática del servidor durante el desarrollo. El cliente de Vite proporciona hot module replacement para actualizaciones instantáneas del frontend.
 
----
+Para entornos de desarrollo, las variables de entorno deben configurarse en el archivo `.env` correspondiente a cada módulo. Este archivo no debe incluirse en control de versiones.
 
-**Hecho con ❤️ y Vibe Coding**
+## Licencia
+
+MIT
