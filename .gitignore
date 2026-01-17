@@ -1,3 +1,6 @@
+# Documentación de desarrollo (no subir a GitHub)
+docs-dev/
+
 # Dependencies
 node_modules/
 npm-debug.log*
