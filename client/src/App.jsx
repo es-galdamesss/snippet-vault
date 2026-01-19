@@ -133,7 +133,7 @@ function App() {
                 Snippet Vault
               </h1>
               <p className="text-accent-secondary">
-                Tu biblioteca personal de código. Guarda una vez, encuentra al instante.
+                Tu biblioteca personal de código.
               </p>
             </div>
             <button
